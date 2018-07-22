@@ -52,7 +52,6 @@ public class UserListViewModel extends BaseViewModel implements Observer<List<Us
     @Override
     public void onError(Throwable e) {
         router.showError(e);
-        Log.e(TAG, "onError: " + e.getMessage() );
     }
 
     @Override
