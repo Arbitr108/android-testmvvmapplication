@@ -41,4 +41,7 @@ ext{
     //Network
     retrofit_version = "2.4.0"
     okhttp_version = "3.11.0"
+
+    //RecyclerView
+    recycler_view_version = "27.1.1"
 }

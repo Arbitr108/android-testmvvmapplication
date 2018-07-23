@@ -18,10 +18,13 @@ import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 
 public class UserListViewModel extends BaseViewModel implements Observer<List<User>> {
+
     private static final String TAG = "UserListViewModel";
+
     private UserListUseCase userListUseCase;
 
-    public ObservableField<List<User>> users = new ObservableField<>();
+    public UserListAdapter adapter  = new UserListAdapter();
+
     public ObservableField<User> user = new ObservableField<>();
 
     public UserListViewModel() {
@@ -47,6 +50,7 @@ public class UserListViewModel extends BaseViewModel implements Observer<List<Us
     @Override
     public void onNext(List<User> users) {
         user.set(users.get(users.size() - 1));
+        adapter.setUsers(users);
     }
 
     @Override

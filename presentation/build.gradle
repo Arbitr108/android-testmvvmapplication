@@ -41,5 +41,8 @@ dependencies {
     implementation "com.android.support:cardview-v7:${cardview_version}"
     //Rx
     implementation "io.reactivex.rxjava2:rxandroid:$rxAndroidVersion"
+
+    //Recycler view
+    implementation "com.android.support:recyclerview-v7:${recycler_view_version}"
     implementation project(path: ':data')
 }
