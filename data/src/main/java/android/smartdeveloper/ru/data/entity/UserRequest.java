@@ -4,8 +4,8 @@ import com.google.gson.annotations.SerializedName;
 
 public class UserRequest  implements DataModel {
 
-    @SerializedName("firstname")
-    private String firstname;
+    @SerializedName("name")
+    private String name;
 
     @SerializedName("surname")
     private String surname;
@@ -22,8 +22,11 @@ public class UserRequest  implements DataModel {
     @SerializedName("updated")
     private long updated;
 
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
+    @SerializedName("age")
+    private int age;
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public void setSurname(String surname) {
@@ -44,5 +47,9 @@ public class UserRequest  implements DataModel {
 
     public void setUpdated(long updated) {
         this.updated = updated;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
     }
 }

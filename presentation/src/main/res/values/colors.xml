@@ -3,4 +3,10 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="colorCustomPrimary">#007BFF</color>
+    <color name="colorCustomWarning">#FFC16F</color>
+    <color name="colorCustomSuccess">#B0DA7B</color>
+    <color name="colorFAB">#2196F3</color>
+    <color name="fragment_bg">#DDCCCCCC</color>
 </resources>
+

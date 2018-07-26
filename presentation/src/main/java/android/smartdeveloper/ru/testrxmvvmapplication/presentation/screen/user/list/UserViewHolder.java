@@ -1,16 +1,16 @@
-package android.smartdeveloper.ru.testrxmvvmapplication.presentation.screen.user.view;
+package android.smartdeveloper.ru.testrxmvvmapplication.presentation.screen.user.list;
 
-import android.smartdeveloper.ru.testrxmvvmapplication.databinding.UserViewBinding;
+import android.smartdeveloper.ru.testrxmvvmapplication.databinding.ItemUserBinding;
 import android.support.v7.widget.RecyclerView;
 
-public class UserViewHolder extends RecyclerView.ViewHolder {
+public class UserViewHolder extends RecyclerView.ViewHolder{
 
-    private UserViewBinding binding;
+    private ItemUserBinding binding;
     private UserViewModel userViewModel;
 
-    public UserViewHolder(UserViewBinding userViewBinding) {
-        super(userViewBinding.getRoot());
-        this.binding = userViewBinding;
+    public UserViewHolder(ItemUserBinding itemUserBinding) {
+        super(itemUserBinding.getRoot());
+        this.binding = itemUserBinding;
     }
 
     public void bind(){

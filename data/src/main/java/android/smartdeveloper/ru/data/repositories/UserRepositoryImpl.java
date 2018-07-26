@@ -1,5 +1,6 @@
 package android.smartdeveloper.ru.data.repositories;
 
+import android.smartdeveloper.ru.data.entity.UserRequest;
 import android.smartdeveloper.ru.data.entity.UserResponse;
 import android.smartdeveloper.ru.data.network.RestService;
 import android.smartdeveloper.ru.domain.entity.User;
@@ -35,7 +36,7 @@ public class UserRepositoryImpl implements UserRepository {
                         List<User> users = new ArrayList<>();
                         for (UserResponse response : userResponses){
                             users.add(new User(
-                                    response.getFirstname(),
+                                    response.getName(),
                                     response.getSurname(),
                                     response.getAvatar(),
                                     response.getGender(),
@@ -85,7 +86,13 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public Completable update(User user) {
-        return null;
+        UserRequest userRequest = new UserRequest();
+        userRequest.setName(user.getName());
+        userRequest.setSurname(user.getSurname());
+        userRequest.setAvatar(user.getAvatarUrl());
+        userRequest.setObjectId(user.getId());
+        userRequest.setAge(user.getAge());
+        return restService.update(userRequest);
     }
 
     @Override

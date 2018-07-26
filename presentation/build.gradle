@@ -28,6 +28,7 @@ android {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation "com.android.support:appcompat-v7:${support_version}"
+    implementation 'com.android.support:support-v4:28.0.0-alpha3'
     annotationProcessor "com.android.databinding:compiler:$bindingVersion"
     // ViewModel and LiveData
     implementation "android.arch.lifecycle:extensions:${lifecycle_version}"

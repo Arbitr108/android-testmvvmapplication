@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="android.smartdeveloper.ru.testrxmvvmapplication.presentation.screen.user.list.edit.UserEditViewModel"/>
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:background="@color/fragment_bg">
+
+            <LinearLayout
+                android:id="@+id/fragment_user_edit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/fr_user_edit_form"
+                android:layout_centerHorizontal="true"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/fr_edit_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@android:drawable/ic_menu_edit" />
+
+                <TextView
+                    android:id="@+id/title"
+                    style="@style/Base.TextAppearance.AppCompat.Title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/edit_title" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/fr_user_edit_form"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginLeft="@dimen/form_margin"
+                android:layout_marginRight="@dimen/form_margin"
+                android:layout_marginStart="@dimen/form_margin"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="64dp"
+                    android:gravity="center"
+                    tools:text="ID" />
+
+                <EditText
+                    android:id="@+id/user_name"
+                    android:inputType="text"
+                    android:layout_width="match_parent"
+                    android:layout_height="64dp"
+                    android:gravity="center"
+                    android:hint="Имя"
+                    android:text="@{viewModel.user.name}" />
+
+                <EditText
+                    android:id="@+id/fr_user_surname"
+                    android:layout_width="match_parent"
+                    android:layout_height="64dp"
+                    android:gravity="center"
+                    android:hint="Фамилия"
+                    android:inputType="number"
+                    android:text="@{viewModel.user.surname}" />
+
+                <EditText
+                    android:id="@+id/fr_user_age"
+                    android:layout_width="match_parent"
+                    android:layout_height="64dp"
+                    android:gravity="center"
+                    android:hint="Возраст"
+                    android:inputType="number"
+                    android:text="@{String.valueOf(viewModel.user.age)}" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:orientation="horizontal">
+                <ImageButton
+                    android:id="@+id/fr_cancel_edit"
+                    android:layout_width="0dp"
+                    android:layout_height="64dp"
+                    android:layout_weight="1"
+                    android:src="@drawable/ic_arrow_back_black_24dp"
+                    android:background="@color/colorCustomWarning"
+                    />
+                <ImageButton
+                    android:id="@+id/fr_commit_edit"
+                    android:layout_width="0dp"
+                    android:layout_height="64dp"
+                    android:layout_weight="1"
+                    android:src="@drawable/ic_done_green_24dp"
+                    android:background="@color/colorCustomSuccess"
+                    android:onClick="@{(v) -> viewModel.updateUser()}"
+                    />
+            </LinearLayout>
+
+
+        </RelativeLayout>
+
+    </FrameLayout>
+
+</layout>

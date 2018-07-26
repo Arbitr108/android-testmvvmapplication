@@ -1,6 +1,8 @@
 package android.smartdeveloper.ru.domain.entity;
 
-public class User implements DomainModel {
+import java.io.Serializable;
+
+public class User implements DomainModel, Serializable{
     private String name;
     private String surname;
     private String avatarUrl;

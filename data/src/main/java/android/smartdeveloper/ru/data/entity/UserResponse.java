@@ -5,8 +5,8 @@ import android.smartdeveloper.ru.domain.entity.Gender;
 import com.google.gson.annotations.SerializedName;
 
 public class UserResponse  implements DataModel {
-    @SerializedName("firstname")
-    private String firstname;
+    @SerializedName("name")
+    private String name;
 
     @SerializedName("surname")
     private String surname;
@@ -29,8 +29,8 @@ public class UserResponse  implements DataModel {
     @SerializedName("gender")
     private Gender gender;
 
-    public String getFirstname() {
-        return firstname;
+    public String getName() {
+        return name;
     }
 
     public String getSurname() {

@@ -17,13 +17,15 @@ import java.util.List;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 
-public class UserListViewModel extends BaseViewModel implements Observer<List<User>> {
+public class UserListViewModel extends BaseViewModel<UserListRouter>
+        implements Observer<List<User>>,
+        UserListAdapter.OnUserClickListener{
 
     private static final String TAG = "UserListViewModel";
 
     private UserListUseCase userListUseCase;
 
-    public UserListAdapter adapter  = new UserListAdapter();
+    public UserListAdapter adapter  = new UserListAdapter(this);
 
     public ObservableField<User> user = new ObservableField<>();
 
@@ -61,5 +63,10 @@ public class UserListViewModel extends BaseViewModel implements Observer<List<Us
     @Override
     public void onComplete() {
         Log.d(TAG, "onComplete: ");
+    }
+
+    @Override
+    public void onUserClicked(User user) {
+        router.showUserEdit(user);
     }
 }

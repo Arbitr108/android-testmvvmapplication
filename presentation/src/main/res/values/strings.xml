@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">TestRxMVVMApplication</string>
     <string name="user_avatar">user avatar</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="edit_title">Редактирование</string>
 </resources>

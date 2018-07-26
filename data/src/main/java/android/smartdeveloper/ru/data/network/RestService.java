@@ -12,6 +12,7 @@ import com.google.gson.GsonBuilder;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import io.reactivex.Completable;
 import io.reactivex.Observable;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -70,11 +71,10 @@ public class RestService {
                 .compose(transformers.<UserResponse, ErrorResponse>handleErrorResponse());
     }
 
-    public Observable<UserResponse> update(UserRequest userRequest) {
+    public Completable update(UserRequest userRequest) {
         return restApi
-                .update(userRequest)
-                .compose(transformers.<UserResponse, ErrorResponse>handleErrorResponse());
-    }
+                .update(userRequest);
+     }
 
     public Observable<DeleteResponse> remove(String id) {
 

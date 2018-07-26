@@ -4,7 +4,7 @@ import android.widget.Toast;
 
 public class BaseRouter <A extends BaseActivity> {
     private static final String TAG = "BaseRouter";
-    private A activity;
+    protected A activity;
 
     public BaseRouter(A activity) {
         this.activity = activity;
