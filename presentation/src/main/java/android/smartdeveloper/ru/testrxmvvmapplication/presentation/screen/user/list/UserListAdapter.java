@@ -15,14 +15,36 @@ public class UserListAdapter extends RecyclerView.Adapter<UserViewHolder> {
     private final OnUserClickListener onUserClickListener;
 
     public interface OnUserClickListener {
+
         void onUserClicked(User user);
     }
-
     private List<User> users = new ArrayList<>();
 
     public UserListAdapter(OnUserClickListener onUserClickListener){
         this.onUserClickListener = onUserClickListener;
     }
+
+    public void update(User user) {
+        int position = users.indexOf(user);
+        if(position > -1){
+            users.set(position, user);
+            notifyItemChanged(position);
+        }
+    }
+
+    public void add(User user){
+        this.users.add(user);
+        notifyItemInserted(getItemCount() - 1);
+    }
+
+    public void remove(User user){
+        int position = users.indexOf(user);
+        if(position > -1){
+            users.remove(position);
+            notifyItemRemoved(position);
+        }
+    }
+
 
     @NonNull
     @Override

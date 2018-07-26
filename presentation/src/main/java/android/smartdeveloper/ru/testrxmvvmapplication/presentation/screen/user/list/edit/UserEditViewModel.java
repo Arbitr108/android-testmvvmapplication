@@ -4,11 +4,12 @@ import android.databinding.ObservableField;
 import android.smartdeveloper.ru.data.network.RestService;
 import android.smartdeveloper.ru.data.repositories.UserRepositoryImpl;
 import android.smartdeveloper.ru.domain.entity.User;
+import android.smartdeveloper.ru.domain.events.UserUpdateEvent;
+import android.smartdeveloper.ru.domain.repositories.UserRepository;
 import android.smartdeveloper.ru.domain.usecase.UpdateUserUseCase;
 import android.smartdeveloper.ru.testrxmvvmapplication.presentation.base.BaseViewModel;
 import android.smartdeveloper.ru.testrxmvvmapplication.presentation.executor.UIThread;
 import android.smartdeveloper.ru.testrxmvvmapplication.presentation.screen.user.list.UserListRouter;
-import android.util.Log;
 
 import io.reactivex.CompletableObserver;
 import io.reactivex.disposables.Disposable;
@@ -31,7 +32,6 @@ public class UserEditViewModel extends BaseViewModel<UserListRouter> implements 
 
 
     public void updateUser() {
-        Log.d(TAG, "updateUser: " + user.get().getName() + " " + user.get().getSurname() );
         updateUserUseCase
                 .updateUser(user.get())
                 .subscribe(this);
@@ -44,6 +44,7 @@ public class UserEditViewModel extends BaseViewModel<UserListRouter> implements 
 
     @Override
     public void onComplete() {
+       UserRepository.events.onNext(new UserUpdateEvent(user.get()));
        router.showUpdateSuccess();
     }
 

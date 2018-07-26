@@ -14,7 +14,7 @@ public class UserRequest  implements DataModel {
     private long created;
 
     @SerializedName("objectId")
-    private String objectId;
+    private String id;
 
     @SerializedName("avatar")
     private String avatar;
@@ -24,6 +24,9 @@ public class UserRequest  implements DataModel {
 
     @SerializedName("age")
     private int age;
+
+    @SerializedName("___class")
+    private String ___class = "user";
 
     public void setName(String name) {
         this.name = name;
@@ -37,8 +40,8 @@ public class UserRequest  implements DataModel {
         this.created = created;
     }
 
-    public void setObjectId(String objectId) {
-        this.objectId = objectId;
+    public void setObjectId(String id) {
+        this.id = id;
     }
 
     public void setAvatar(String avatar) {

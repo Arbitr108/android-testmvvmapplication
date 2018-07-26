@@ -40,7 +40,8 @@ public class UserRepositoryImpl implements UserRepository {
                                     response.getSurname(),
                                     response.getAvatar(),
                                     response.getGender(),
-                                    response.getAge()
+                                    response.getAge(),
+                                    response.getObjectId()
                             ));
                         }
                         return users;

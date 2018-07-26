@@ -59,13 +59,13 @@
                     tools:text="ID" />
 
                 <EditText
-                    android:id="@+id/user_name"
+                    android:id="@+id/fr_user_name"
                     android:inputType="text"
                     android:layout_width="match_parent"
                     android:layout_height="64dp"
                     android:gravity="center"
                     android:hint="Имя"
-                    android:text="@{viewModel.user.name}" />
+                    android:text="@={viewModel.user.name}" />
 
                 <EditText
                     android:id="@+id/fr_user_surname"
@@ -73,8 +73,7 @@
                     android:layout_height="64dp"
                     android:gravity="center"
                     android:hint="Фамилия"
-                    android:inputType="number"
-                    android:text="@{viewModel.user.surname}" />
+                    android:text="@={viewModel.user.surname}" />
 
                 <EditText
                     android:id="@+id/fr_user_age"
