@@ -38,4 +38,8 @@ public abstract class BaseMVVMActivity
         super.onStop();
         viewModel.removeRouter();
     }
+
+    public R getRouter(){
+        return router;
+    }
 }

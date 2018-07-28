@@ -15,6 +15,8 @@ public class UserListActivity extends BaseMVVMActivity<UserListViewModel,Activit
         super.onCreate(savedInstanceState);
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
         binding.recyclerView.setAdapter(viewModel.adapter);
+        binding.recyclerView.setHasFixedSize(false);
+        //binding.recyclerView.setNestedScrollingEnabled(false);
     }
 
     @Override

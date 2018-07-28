@@ -23,6 +23,15 @@ public class User implements DomainModel, Serializable {
         this.id = id;
     }
 
+    public User(User user){
+        this.name = user.getName();
+        this.surname = user.getSurname();
+        this.avatarUrl = user.getAvatarUrl();
+        this.gender = user.getGender();
+        this.age = user.getAge();
+        this.id = user.getId();
+    }
+
     public String getName() {
         return name;
     }

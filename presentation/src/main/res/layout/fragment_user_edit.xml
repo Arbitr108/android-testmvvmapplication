@@ -5,7 +5,7 @@
     <data>
         <variable
             name="viewModel"
-            type="android.smartdeveloper.ru.testrxmvvmapplication.presentation.screen.user.list.edit.UserEditViewModel"/>
+            type="android.smartdeveloper.ru.testrxmvvmapplication.presentation.screen.user.edit.UserEditViewModel"/>
     </data>
 
     <FrameLayout

@@ -1,4 +1,4 @@
-package android.smartdeveloper.ru.testrxmvvmapplication.presentation.screen.user.list.search;
+package android.smartdeveloper.ru.testrxmvvmapplication.presentation.screen.user.search;
 
 import android.content.Context;
 import android.net.Uri;

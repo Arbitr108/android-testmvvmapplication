@@ -1,6 +1,5 @@
 package android.smartdeveloper.ru.testrxmvvmapplication.presentation.base;
 
-import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.os.Bundle;
@@ -39,15 +38,14 @@ public abstract class BaseMVVMFragment
     }
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
+    public void onStart() {
+        super.onStart();
         viewModel.addRouter(router);
-
     }
 
     @Override
-    public void onDetach() {
-        super.onDetach();
+    public void onStop() {
+        super.onStop();
         viewModel.removeRouter();
     }
 }

@@ -1,11 +1,9 @@
-package android.smartdeveloper.ru.testrxmvvmapplication.presentation.screen.user.list.edit;
+package android.smartdeveloper.ru.testrxmvvmapplication.presentation.screen.user.edit;
 
 import android.databinding.ObservableField;
 import android.smartdeveloper.ru.data.network.RestService;
 import android.smartdeveloper.ru.data.repositories.UserRepositoryImpl;
 import android.smartdeveloper.ru.domain.entity.User;
-import android.smartdeveloper.ru.domain.events.UserUpdateEvent;
-import android.smartdeveloper.ru.domain.repositories.UserRepository;
 import android.smartdeveloper.ru.domain.usecase.UpdateUserUseCase;
 import android.smartdeveloper.ru.testrxmvvmapplication.presentation.base.BaseViewModel;
 import android.smartdeveloper.ru.testrxmvvmapplication.presentation.executor.UIThread;
@@ -22,6 +20,13 @@ public class UserEditViewModel extends BaseViewModel<UserListRouter> implements 
     private static final String TAG = "UserEditViewModel";
 
     public ObservableField<User> user = new ObservableField<>();
+    public ObservableField<String> name = new ObservableField<>();
+
+    public UserEditViewModel(){
+        updateUserUseCase = new UpdateUserUseCase(
+                new UserRepositoryImpl(RestService.getInstance()), UIThread.getInstance());
+
+    }
 
     public UserEditViewModel(User user){
         updateUserUseCase = new UpdateUserUseCase(
@@ -32,6 +37,7 @@ public class UserEditViewModel extends BaseViewModel<UserListRouter> implements 
 
 
     public void updateUser() {
+        //TODO add validation, create new user to send to the userCase
         updateUserUseCase
                 .updateUser(user.get())
                 .subscribe(this);
@@ -44,7 +50,6 @@ public class UserEditViewModel extends BaseViewModel<UserListRouter> implements 
 
     @Override
     public void onComplete() {
-       UserRepository.events.onNext(new UserUpdateEvent(user.get()));
        router.showUpdateSuccess();
     }
 

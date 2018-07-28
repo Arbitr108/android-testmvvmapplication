@@ -3,8 +3,7 @@ package android.smartdeveloper.ru.testrxmvvmapplication.presentation.screen.user
 import android.smartdeveloper.ru.domain.entity.User;
 import android.smartdeveloper.ru.testrxmvvmapplication.R;
 import android.smartdeveloper.ru.testrxmvvmapplication.presentation.base.BaseRouter;
-import android.smartdeveloper.ru.testrxmvvmapplication.presentation.screen.user.list.edit.UserEditFragment;
-import android.smartdeveloper.ru.testrxmvvmapplication.presentation.screen.user.list.edit.UserEditViewModel;
+import android.smartdeveloper.ru.testrxmvvmapplication.presentation.screen.user.edit.UserEditFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.widget.Toast;
@@ -22,7 +21,7 @@ public class UserListRouter extends BaseRouter<UserListActivity> {
     public void showUserEdit(User user) {
         FragmentManager fragmentManager = activity.getSupportFragmentManager();
         UserEditFragment fragment =
-                UserEditFragment.newInstance(this, new UserEditViewModel(user));
+                UserEditFragment.newInstance(user);
 
         FragmentTransaction transaction = fragmentManager.beginTransaction();
 
@@ -40,6 +39,11 @@ public class UserListRouter extends BaseRouter<UserListActivity> {
     }
 
     public void showUpdateSuccess() {
+        activity.onBackPressed();
         Toast.makeText(activity, "Новые данные сохранены", Toast.LENGTH_LONG).show();
+    }
+
+    public void showUserDetails() {
+        Toast.makeText(activity, "User details is clicked", Toast.LENGTH_SHORT).show();
     }
 }
