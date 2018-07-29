@@ -8,15 +8,18 @@ import android.smartdeveloper.ru.domain.entity.User;
 import android.smartdeveloper.ru.domain.repositories.UserRepository;
 import android.smartdeveloper.ru.domain.usecase.SearchUseCase;
 import android.smartdeveloper.ru.domain.usecase.UserListUseCase;
+import android.smartdeveloper.ru.domain.usecase.UserRemoveUseCase;
 import android.smartdeveloper.ru.testrxmvvmapplication.presentation.base.BaseViewModel;
 import android.smartdeveloper.ru.testrxmvvmapplication.presentation.base.recycler.OnItemClickEventModel;
 import android.smartdeveloper.ru.testrxmvvmapplication.presentation.executor.UIThread;
 import android.smartdeveloper.ru.testrxmvvmapplication.presentation.helpers.GuiHelper;
 import android.smartdeveloper.ru.testrxmvvmapplication.presentation.screen.user.list.recycler.UserListAdapter;
+import android.util.Log;
 import android.widget.ImageView;
 
 import java.util.List;
 
+import io.reactivex.CompletableObserver;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.subjects.PublishSubject;
@@ -29,6 +32,8 @@ public class UserListViewModel extends BaseViewModel<UserListRouter> {
 
     private final UserListUseCase userListUseCase;
 
+    private final UserRemoveUseCase userRemoveUseCase;
+
     public UserListAdapter adapter = new UserListAdapter();
 
     public ObservableField<User> user = new ObservableField<>();
@@ -40,9 +45,10 @@ public class UserListViewModel extends BaseViewModel<UserListRouter> {
 
         userSearchUseCase = new SearchUseCase(repository, UIThread.getInstance());
 
+        userRemoveUseCase = new UserRemoveUseCase(repository, UIThread.getInstance());
     }
 
-    public void load(){
+    public void load() {
         userListUseCase.getUsers()
                 .subscribe(new Observer<List<User>>() {
                     @Override
@@ -122,7 +128,53 @@ public class UserListViewModel extends BaseViewModel<UserListRouter> {
 
             @Override
             public void onNext(OnItemClickEventModel<User> userOnItemClickEventModel) {
-                router.showUserRemove(userOnItemClickEventModel.getEntity());
+                User user = userOnItemClickEventModel.getEntity();
+                if (user != null) {
+                    router.confirmAction(
+                            String.format("Удалить пользователя %s %s", user.getName(), user.getSurname()))
+                            .subscribe(new Observer<Boolean>() {
+                                @Override
+                                public void onSubscribe(Disposable d) {
+                                    getDisposables().add(d);
+                                }
+
+                                @Override
+                                public void onNext(Boolean confirmed) {
+                                    if (confirmed) {
+                                        userRemoveUseCase
+                                                .removeUser(user.getId())
+                                                .subscribe(new CompletableObserver() {
+                                                    @Override
+                                                    public void onSubscribe(Disposable d) {
+                                                        getDisposables().add(d);
+                                                    }
+
+                                                    @Override
+                                                    public void onComplete() {
+                                                        Log.d(TAG, "onComplete: user removed " + user.getName());
+                                                        adapter.removeItem(user);
+                                                    }
+
+                                                    @Override
+                                                    public void onError(Throwable e) {
+                                                        router.showError(e);
+                                                    }
+                                                });
+                                    }
+                                }
+
+                                @Override
+                                public void onError(Throwable e) {
+                                    router.showError(e);
+                                }
+
+                                @Override
+                                public void onComplete() {
+
+                                }
+                            });
+
+                }
             }
 
             @Override

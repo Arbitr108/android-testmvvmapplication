@@ -92,7 +92,6 @@ public class RestService {
 
     public Observable<List<UserResponse>> search(String search) {
         String searchFormatted = search +"%";
-        Log.d(TAG, "search: " + String.format("name LIKE '%s' OR surname LIKE '%s'", searchFormatted, searchFormatted));
         return restApi
                 .search(String.format("name LIKE '%s' OR surname LIKE '%s'", searchFormatted, searchFormatted))
                 .compose(transformers.<List<UserResponse>, ErrorResponse>handleErrorResponse());

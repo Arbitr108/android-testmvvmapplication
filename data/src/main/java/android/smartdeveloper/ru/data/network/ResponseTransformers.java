@@ -20,6 +20,7 @@ import okhttp3.ResponseBody;
 import retrofit2.HttpException;
 
 public class ResponseTransformers {
+    private static final String TAG = "ResponseTransformers";
 
     private Gson gson;
 

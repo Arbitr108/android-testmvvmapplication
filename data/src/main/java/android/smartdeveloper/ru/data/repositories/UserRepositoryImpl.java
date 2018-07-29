@@ -19,7 +19,7 @@ public class UserRepositoryImpl implements UserRepository {
     private static final String TAG = "UserRepositoryImpl";
     private final RestService restService;
 
-    public UserRepositoryImpl(RestService restService){
+    public UserRepositoryImpl(RestService restService) {
         this.restService = restService;
     }
 
@@ -34,7 +34,7 @@ public class UserRepositoryImpl implements UserRepository {
                     @Override
                     public List<User> apply(List<UserResponse> userResponses) throws Exception {
                         List<User> users = new ArrayList<>();
-                        for (UserResponse response : userResponses){
+                        for (UserResponse response : userResponses) {
                             users.add(new User(
                                     response.getName(),
                                     response.getSurname(),
@@ -47,37 +47,6 @@ public class UserRepositoryImpl implements UserRepository {
                         return users;
                     }
                 });
-
-//        return Observable.create(new ObservableOnSubscribe<List<User>>() {
-//            List<User> users = new ArrayList<>();
-//            @Override
-//            public void subscribe(final ObservableEmitter<List<User>> emitter) throws Exception {
-//                users.add(new User("Name2","Surname2","http://i.imgur.com/DvpvklR.png",
-//                                Gender.M,
-//                                30 ));
-//
-//                final Random random = new Random();
-//                Observable
-//                        .interval(2, TimeUnit.SECONDS)
-//                        .subscribeOn(Schedulers.io())
-//                        .subscribe(new Consumer<Long>() {
-//                    @Override
-//                    public void accept(Long aLong) throws Exception {
-//                       users.add(new User(
-//                               "Name" + random.nextInt(500),
-//                               "Surname" +random.nextInt(500),
-//                               String.format("https://randomuser.me/api/portraits/women/%d.jpg", 1 + random.nextInt(98)),
-//                               Gender.M,
-//                               random.nextInt(50) ));
-//
-//                        Log.d(TAG, "accept: added, now size is " + users.size() + " thread:" + Thread.currentThread().getName());
-//                        emitter.onNext(users);
-//                    }
-//                });
-//
-////                emitter.onComplete();
-//            }
-//        });
     }
 
     @Override
@@ -109,7 +78,7 @@ public class UserRepositoryImpl implements UserRepository {
                     @Override
                     public List<User> apply(List<UserResponse> userResponses) throws Exception {
                         List<User> users = new ArrayList<>();
-                        for (UserResponse response : userResponses){
+                        for (UserResponse response : userResponses) {
                             users.add(new User(
                                     response.getName(),
                                     response.getSurname(),
@@ -151,7 +120,7 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public Completable delete(String id) {
-        return null;
+        return Completable.fromObservable(restService.remove(id));
     }
 
     @Override

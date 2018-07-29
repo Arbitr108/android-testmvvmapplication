@@ -26,7 +26,6 @@ public interface RestApi {
     @GET("data/user?sortBy=objectId%20desc")
     Observable<List<UserResponse>> all();
 
-
     @GET("data/user/{id}")
     Observable<UserResponse> fetch(@Path("id") String id);
 

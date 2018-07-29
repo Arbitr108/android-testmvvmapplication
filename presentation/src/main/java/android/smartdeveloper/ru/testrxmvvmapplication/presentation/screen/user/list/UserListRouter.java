@@ -67,6 +67,7 @@ public class UserListRouter extends BaseRouter<UserListActivity> {
 
                     }
                 });
+
         fragment.observeCancelClick()
                 .subscribe(new Consumer<Boolean>() {
                     @Override
@@ -90,7 +91,7 @@ public class UserListRouter extends BaseRouter<UserListActivity> {
         Toast.makeText(activity, "User " + user.getId() + " details is clicked", Toast.LENGTH_SHORT).show();
     }
 
-    public void showUserRemove(User user) {
-        Toast.makeText(activity, String.format("Delete user %s", user.getId()), Toast.LENGTH_SHORT).show();
+    public void showActionSuccess() {
+        Toast.makeText(activity, "Операция выполнена успешно", Toast.LENGTH_SHORT).show();
     }
 }
