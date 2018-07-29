@@ -16,6 +16,8 @@ public interface UserRepository {
 
     Observable<User> fetch(String userId);
 
+    Observable<List<User>> search(String search);
+
     Observable<User> update(User user);
 
     Completable delete(String id);

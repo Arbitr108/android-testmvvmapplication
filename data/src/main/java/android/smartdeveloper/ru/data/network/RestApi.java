@@ -14,6 +14,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 import retrofit2.http.QueryMap;
 
 public interface RestApi {
@@ -35,4 +36,7 @@ public interface RestApi {
 
     @DELETE("data/user/{id}")
     Observable<DeleteResponse> remove(@Path("id") String id);
+
+    @GET("data/user")
+    Observable<List<UserResponse>> search(@Query("where") String search);
 }

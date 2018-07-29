@@ -46,4 +46,6 @@ dependencies {
     //Recycler view
     implementation "com.android.support:recyclerview-v7:${recycler_view_version}"
     implementation project(path: ':data')
+
+    implementation 'com.android.support:design:27.1.1'
 }
