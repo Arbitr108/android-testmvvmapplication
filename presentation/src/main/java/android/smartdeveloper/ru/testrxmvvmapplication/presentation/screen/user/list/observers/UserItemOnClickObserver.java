@@ -20,6 +20,6 @@ public class UserItemOnClickObserver extends BaseItemClickObserver<OnItemClickEv
 
     @Override
     public void onNext(OnItemClickEventModel<User> userOnItemClickEventModel) {
-        router.showUserDetails();
+        router.showUserEdit(userOnItemClickEventModel.getEntity());
     }
 }

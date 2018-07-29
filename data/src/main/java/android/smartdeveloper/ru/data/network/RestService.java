@@ -65,13 +65,13 @@ public class RestService {
                 .compose(transformers.<List<UserResponse>, ErrorResponse>handleErrorResponse());
     }
 
-    public Observable<UserResponse> show(String id) {
+    public Observable<UserResponse> fetch(String id) {
         return restApi
-                .show(id)
+                .fetch(id)
                 .compose(transformers.<UserResponse, ErrorResponse>handleErrorResponse());
     }
 
-    public Completable update(UserRequest userRequest) {
+    public Observable<UserResponse> update(UserRequest userRequest) {
         return restApi
                 .update(userRequest);
      }

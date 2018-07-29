@@ -4,6 +4,8 @@ import android.databinding.ViewDataBinding;
 import android.smartdeveloper.ru.domain.entity.DomainModel;
 import android.support.v7.widget.RecyclerView;
 
+import com.android.databinding.library.baseAdapters.BR;
+
 public class BaseItemViewHolder
                 <E extends DomainModel,
                 VM extends BaseItemViewModel<E>,

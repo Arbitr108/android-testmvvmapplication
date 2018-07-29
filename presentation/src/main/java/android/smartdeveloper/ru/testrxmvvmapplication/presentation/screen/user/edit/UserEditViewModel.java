@@ -3,58 +3,66 @@ package android.smartdeveloper.ru.testrxmvvmapplication.presentation.screen.user
 import android.databinding.ObservableField;
 import android.smartdeveloper.ru.data.network.RestService;
 import android.smartdeveloper.ru.data.repositories.UserRepositoryImpl;
+import android.smartdeveloper.ru.domain.entity.Gender;
 import android.smartdeveloper.ru.domain.entity.User;
+import android.smartdeveloper.ru.domain.usecase.FetchUserUseCase;
 import android.smartdeveloper.ru.domain.usecase.UpdateUserUseCase;
-import android.smartdeveloper.ru.testrxmvvmapplication.presentation.base.BaseViewModel;
+import android.smartdeveloper.ru.testrxmvvmapplication.presentation.base.BaseEditViewModel;
 import android.smartdeveloper.ru.testrxmvvmapplication.presentation.executor.UIThread;
-import android.smartdeveloper.ru.testrxmvvmapplication.presentation.screen.user.list.UserListRouter;
 
-import io.reactivex.CompletableObserver;
-import io.reactivex.disposables.Disposable;
+import io.reactivex.Observable;
 
 
-public class UserEditViewModel extends BaseViewModel<UserListRouter> implements CompletableObserver{
+public class UserEditViewModel extends BaseEditViewModel<User> {
 
-    UpdateUserUseCase updateUserUseCase;
+    public static final String MUSC = "М";
+    public static final String FEM = "Ж";
+    private UpdateUserUseCase updateUserUseCase;
+    private FetchUserUseCase fetchUserUseCase;
 
     private static final String TAG = "UserEditViewModel";
 
-    public ObservableField<User> user = new ObservableField<>();
+    public String userId;
     public ObservableField<String> name = new ObservableField<>();
+    public ObservableField<String> surname = new ObservableField<>();
+    public ObservableField<String> age = new ObservableField<>();
+    public ObservableField<String> avatarUrl = new ObservableField<>();
+    public ObservableField<String> gender = new ObservableField<>();
 
-    public UserEditViewModel(){
-        updateUserUseCase = new UpdateUserUseCase(
-                new UserRepositoryImpl(RestService.getInstance()), UIThread.getInstance());
+    public UserEditViewModel() {
+        updateUserUseCase =
+                new UpdateUserUseCase(
+                        new UserRepositoryImpl(
+                                RestService.getInstance()),
+                        UIThread.getInstance());
 
-    }
+        fetchUserUseCase =
+                new FetchUserUseCase(
+                        new UserRepositoryImpl(
+                                RestService.getInstance()),
+                        UIThread.getInstance());
 
-    public UserEditViewModel(User user){
-        updateUserUseCase = new UpdateUserUseCase(
-                new UserRepositoryImpl(RestService.getInstance()), UIThread.getInstance());
-
-        this.user.set(user);
-    }
-
-
-    public void updateUser() {
-        //TODO add validation, create new user to send to the userCase
-        updateUserUseCase
-                .updateUser(user.get())
-                .subscribe(this);
-    }
-
-    @Override
-    public void onSubscribe(Disposable d) {
-        getDisposables().add(d);
     }
 
     @Override
-    public void onComplete() {
-       router.showUpdateSuccess();
+    public void setItem(User user) {
+        name.set(user.getName());
+        surname.set(user.getSurname());
+        age.set(String.valueOf(user.getAge()));
+        avatarUrl.set(user.getAvatarUrl());
+        gender.set(user.getGender() == Gender.M ? MUSC : FEM);
+        userId = user.getId();
     }
 
-    @Override
-    public void onError(Throwable e) {
-        router.showUpdateFail(e.getMessage());
+    public Observable<User> update() {
+        return updateUserUseCase
+                .updateUser(
+                        new User(
+                                name.get(),
+                                surname.get(),
+                                avatarUrl.get(),
+                                (gender.get() != null && gender.get().equals(MUSC)) ? Gender.M : Gender.W,
+                                Integer.valueOf(age.get()),
+                                userId));
     }
 }

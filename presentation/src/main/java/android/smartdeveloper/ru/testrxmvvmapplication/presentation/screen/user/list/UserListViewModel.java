@@ -12,7 +12,6 @@ import android.smartdeveloper.ru.testrxmvvmapplication.presentation.executor.UIT
 import android.smartdeveloper.ru.testrxmvvmapplication.presentation.helpers.GuiHelper;
 import android.smartdeveloper.ru.testrxmvvmapplication.presentation.screen.user.list.observers.UserItemOnClickObserver;
 import android.smartdeveloper.ru.testrxmvvmapplication.presentation.screen.user.list.recycler.UserListAdapter;
-import android.util.Log;
 import android.widget.ImageView;
 
 import java.util.List;
@@ -20,14 +19,13 @@ import java.util.List;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 
-public class UserListViewModel extends BaseViewModel<UserListRouter>
-        implements Observer<List<User>>{
+public class UserListViewModel extends BaseViewModel<UserListRouter> {
 
     private static final String TAG = "UserListViewModel";
 
     private UserListUseCase userListUseCase;
 
-    public UserListAdapter adapter  = new UserListAdapter();
+    public UserListAdapter adapter = new UserListAdapter();
 
     public ObservableField<User> user = new ObservableField<>();
 
@@ -36,12 +34,34 @@ public class UserListViewModel extends BaseViewModel<UserListRouter>
         userListUseCase = new UserListUseCase(
                 new UserRepositoryImpl(RestService.getInstance()), UIThread.getInstance());
 
-        userListUseCase
-                .getUsers()
-                .subscribe(this);
 
-        adapter
-                .observeItemClick()
+    }
+
+    public void initObservers() {
+        userListUseCase.getUsers()
+                        .subscribe(new Observer<List<User>>() {
+                            @Override
+                            public void onSubscribe(Disposable d) {
+                                getDisposables().add(d);
+                            }
+
+                            @Override
+                            public void onNext(List<User> users) {
+                                adapter.setItems(users);
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                router.showError(e);
+                            }
+
+                            @Override
+                            public void onComplete() {
+
+                            }
+                });
+
+        adapter.observeItemClick()
                 .subscribe(new UserItemOnClickObserver(router) {
                     @Override
                     public void onSubscribe(Disposable d) {
@@ -50,50 +70,38 @@ public class UserListViewModel extends BaseViewModel<UserListRouter>
 
                     @Override
                     public void onNext(OnItemClickEventModel<User> userOnItemClickEventModel) {
-                        router.showUserDetails();
+                        router.showUserDetails(userOnItemClickEventModel.getEntity());
                     }
                 });
 
-//        getDisposables().add(UserRepository
-//                .events
-//                .subscribe(new Consumer<AppEvent>() {
-//                    @Override
-//                    public void accept(AppEvent appEvent) throws Exception {
-//                        if(appEvent instanceof UserUpdateEvent){
-//                            adapter.update(((UserUpdateEvent)appEvent).getUser());
-//                        }else if(appEvent instanceof UserAddedEvent){
-//                            //TODO: сделать получение нового user из UserAddedEvent
-//                            adapter.notifyDataSetChanged();
-//                        }else if(appEvent instanceof UserRemovedEvent){
-//                            //TODO: сделать получение нового id user из UserRemovedEvent
-//                            adapter.notifyDataSetChanged();
-//                        }
-//                    }
-//                }));
+        adapter.observeEditButtonClick().subscribe(new UserItemOnClickObserver(router) {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        getDisposables().add(d);
+                    }
+
+                    @Override
+                    public void onNext(OnItemClickEventModel<User> userOnItemClickEventModel) {
+                        router.showUserEdit(userOnItemClickEventModel.getEntity());
+                }
+        });
+
+        adapter.observeDeleteButtonClick().subscribe(new UserItemOnClickObserver(router) {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        getDisposables().add(d);
+                    }
+
+                    @Override
+                    public void onNext(OnItemClickEventModel<User> userOnItemClickEventModel) {
+                        router.showUserRemove(userOnItemClickEventModel.getEntity());
+                }
+        });
+
     }
 
     @BindingAdapter({"bind:avatarUrl"})
     public static void loadAvatar(ImageView view, String avatarUrl) {
         GuiHelper.renderImage(view, avatarUrl);
-    }
-
-    @Override
-    public void onSubscribe(Disposable d) {
-        getDisposables().add(d);
-    }
-
-    @Override
-    public void onNext(List<User> users) {
-        adapter.setItems(users);
-    }
-
-    @Override
-    public void onError(Throwable e) {
-        router.showError(e);
-    }
-
-    @Override
-    public void onComplete() {
-        Log.d(TAG, "onComplete: ");
     }
 }

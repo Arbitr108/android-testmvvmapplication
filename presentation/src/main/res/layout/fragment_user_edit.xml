@@ -65,7 +65,7 @@
                     android:layout_height="64dp"
                     android:gravity="center"
                     android:hint="Имя"
-                    android:text="@={viewModel.user.name}" />
+                    android:text="@={viewModel.name}" />
 
                 <EditText
                     android:id="@+id/fr_user_surname"
@@ -73,7 +73,7 @@
                     android:layout_height="64dp"
                     android:gravity="center"
                     android:hint="Фамилия"
-                    android:text="@={viewModel.user.surname}" />
+                    android:text="@={viewModel.surname}" />
 
                 <EditText
                     android:id="@+id/fr_user_age"
@@ -82,7 +82,7 @@
                     android:gravity="center"
                     android:hint="Возраст"
                     android:inputType="number"
-                    android:text="@{String.valueOf(viewModel.user.age)}" />
+                    android:text="@={viewModel.age}" />
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -104,7 +104,6 @@
                     android:layout_weight="1"
                     android:src="@drawable/ic_done_green_24dp"
                     android:background="@color/colorCustomSuccess"
-                    android:onClick="@{(v) -> viewModel.updateUser()}"
                     />
             </LinearLayout>
 

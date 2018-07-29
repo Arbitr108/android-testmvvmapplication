@@ -25,6 +25,12 @@ public class UserListActivity extends BaseMVVMActivity<UserListViewModel,Activit
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        viewModel.initObservers();
+    }
+
+    @Override
     protected UserListViewModel provideViewModel() {
         return ViewModelProviders.of(this).get(UserListViewModel.class);
     }

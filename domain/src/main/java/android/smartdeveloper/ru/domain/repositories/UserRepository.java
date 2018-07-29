@@ -14,7 +14,9 @@ public interface UserRepository {
 
     Observable<List<User>> all(Map<String, String> options);
 
-    Completable update(User user);
+    Observable<User> fetch(String userId);
+
+    Observable<User> update(User user);
 
     Completable delete(String id);
 

@@ -7,7 +7,6 @@ import android.smartdeveloper.ru.data.entity.UserResponse;
 import java.util.List;
 import java.util.Map;
 
-import io.reactivex.Completable;
 import io.reactivex.Observable;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
@@ -28,11 +27,11 @@ public interface RestApi {
 
 
     @GET("data/user/{id}")
-    Observable<UserResponse> show(@Path("id") String id);
+    Observable<UserResponse> fetch(@Path("id") String id);
 
     @Headers("CustomHeader: some custom header data")
     @PUT("data/user")
-    Completable update(@Body UserRequest userRequest);
+    Observable<UserResponse> update(@Body UserRequest userRequest);
 
     @DELETE("data/user/{id}")
     Observable<DeleteResponse> remove(@Path("id") String id);

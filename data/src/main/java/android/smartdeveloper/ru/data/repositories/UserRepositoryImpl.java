@@ -86,14 +86,45 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public Completable update(User user) {
+    public Observable<User> fetch(String userId) {
+        return restService.fetch(userId).map(new Function<UserResponse, User>() {
+            @Override
+            public User apply(UserResponse response) throws Exception {
+                return new User(
+                        response.getName(),
+                        response.getSurname(),
+                        response.getAvatar(),
+                        response.getGender(),
+                        response.getAge(),
+                        response.getObjectId()
+                );
+            }
+        });
+    }
+
+    @Override
+    public Observable<User> update(User user) {
         UserRequest userRequest = new UserRequest();
         userRequest.setName(user.getName());
         userRequest.setSurname(user.getSurname());
         userRequest.setAvatar(user.getAvatarUrl());
         userRequest.setObjectId(user.getId());
         userRequest.setAge(user.getAge());
-        return restService.update(userRequest);
+        return restService
+                .update(userRequest)
+                .map(new Function<UserResponse, User>() {
+                    @Override
+                    public User apply(UserResponse response) throws Exception {
+                        return new User(
+                                response.getName(),
+                                response.getSurname(),
+                                response.getAvatar(),
+                                response.getGender(),
+                                response.getAge(),
+                                response.getObjectId()
+                        );
+                    }
+                });
     }
 
     @Override

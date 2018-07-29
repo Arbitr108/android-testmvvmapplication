@@ -6,19 +6,18 @@ import android.smartdeveloper.ru.domain.repositories.UserRepository;
 
 import io.reactivex.Observable;
 
-public class UpdateUserUseCase extends BaseUseCase {
+public class FetchUserUseCase extends BaseUseCase {
 
     private final UserRepository userRepository;
 
-    public UpdateUserUseCase(UserRepository userRepository, PostExecutionThread postExecutionThread) {
-        super(postExecutionThread);
-        this.userRepository = userRepository;
+    public FetchUserUseCase(UserRepository repository, PostExecutionThread thread) {
+        super(thread);
+        this.userRepository = repository;
     }
 
-    public Observable<User> updateUser(User user){
-
+    public Observable<User> getUser(String userId){
         return userRepository
-                .update(user)
+                .fetch(userId)
                 .subscribeOn(executionThread)
                 .observeOn(postExecutionThread);
     }

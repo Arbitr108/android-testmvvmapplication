@@ -3,10 +3,14 @@ package android.smartdeveloper.ru.testrxmvvmapplication.presentation.screen.user
 import android.smartdeveloper.ru.domain.entity.User;
 import android.smartdeveloper.ru.testrxmvvmapplication.R;
 import android.smartdeveloper.ru.testrxmvvmapplication.presentation.base.BaseRouter;
+import android.smartdeveloper.ru.testrxmvvmapplication.presentation.screen.user.edit.OnClickItemModel;
 import android.smartdeveloper.ru.testrxmvvmapplication.presentation.screen.user.edit.UserEditFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.widget.Toast;
+
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
 
 public class UserListRouter extends BaseRouter<UserListActivity> {
     private static final String TAG = "UserListRouter";
@@ -32,6 +36,35 @@ public class UserListRouter extends BaseRouter<UserListActivity> {
 
         transaction.replace(R.id.fragment_container, fragment)
                 .commit();
+
+        fragment.observeSubmitClick()
+                .subscribe(new Observer<OnClickItemModel<User>>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        UserListViewModel viewModel = activity.getViewModel();
+                        if(viewModel != null){
+                            viewModel.getDisposables().add(d);
+                        }
+                    }
+
+                    @Override
+                    public void onNext(OnClickItemModel<User> userOnUserUpdateSubmitModel) {
+                        UserListViewModel viewModel = activity.getViewModel();
+                        if(viewModel != null){
+                            viewModel.adapter.updateItem(userOnUserUpdateSubmitModel.getEntity());
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        showError(e);
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
     }
 
     public void showUpdateFail(String message) {
@@ -43,7 +76,11 @@ public class UserListRouter extends BaseRouter<UserListActivity> {
         Toast.makeText(activity, "Новые данные сохранены", Toast.LENGTH_LONG).show();
     }
 
-    public void showUserDetails() {
-        Toast.makeText(activity, "User details is clicked", Toast.LENGTH_SHORT).show();
+    public void showUserDetails(User user) {
+        Toast.makeText(activity, "User " + user.getId() + " details is clicked", Toast.LENGTH_SHORT).show();
+    }
+
+    public void showUserRemove(User user) {
+        Toast.makeText(activity, String.format("Delete user %s", user.getId()), Toast.LENGTH_SHORT).show();
     }
 }
