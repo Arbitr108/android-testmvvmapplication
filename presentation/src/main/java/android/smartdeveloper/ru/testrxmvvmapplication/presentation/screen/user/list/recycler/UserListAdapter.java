@@ -2,7 +2,7 @@ package android.smartdeveloper.ru.testrxmvvmapplication.presentation.screen.user
 
 import android.smartdeveloper.ru.domain.entity.User;
 import android.smartdeveloper.ru.testrxmvvmapplication.presentation.base.recycler.BaseRecyclerViewAdapter;
-import android.smartdeveloper.ru.testrxmvvmapplication.presentation.base.recycler.events.OnItemClickEventModel;
+import android.smartdeveloper.ru.testrxmvvmapplication.presentation.base.recycler.OnItemClickEventModel;
 import android.support.annotation.NonNull;
 import android.view.ViewGroup;
 

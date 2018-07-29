@@ -1,7 +1,6 @@
 package android.smartdeveloper.ru.testrxmvvmapplication.presentation.base.recycler;
 
 import android.smartdeveloper.ru.domain.entity.DomainModel;
-import android.smartdeveloper.ru.testrxmvvmapplication.presentation.base.recycler.events.OnItemClickEventModel;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;

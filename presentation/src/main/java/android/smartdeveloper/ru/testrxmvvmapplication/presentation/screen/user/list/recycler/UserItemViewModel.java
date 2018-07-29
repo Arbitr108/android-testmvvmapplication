@@ -5,7 +5,7 @@ import android.databinding.ObservableField;
 import android.smartdeveloper.ru.domain.entity.Gender;
 import android.smartdeveloper.ru.domain.entity.User;
 import android.smartdeveloper.ru.testrxmvvmapplication.presentation.base.recycler.BaseItemViewModel;
-import android.smartdeveloper.ru.testrxmvvmapplication.presentation.base.recycler.events.OnItemClickEventModel;
+import android.smartdeveloper.ru.testrxmvvmapplication.presentation.base.recycler.OnItemClickEventModel;
 import android.smartdeveloper.ru.testrxmvvmapplication.presentation.helpers.GuiHelper;
 import android.support.annotation.NonNull;
 import android.widget.ImageView;

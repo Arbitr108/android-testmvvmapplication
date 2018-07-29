@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
 
 public class UserListRouter extends BaseRouter<UserListActivity> {
     private static final String TAG = "UserListRouter";
@@ -53,6 +54,7 @@ public class UserListRouter extends BaseRouter<UserListActivity> {
                         if(viewModel != null){
                             viewModel.adapter.updateItem(userOnUserUpdateSubmitModel.getEntity());
                         }
+                        activity.onBackPressed();
                     }
 
                     @Override
@@ -63,6 +65,14 @@ public class UserListRouter extends BaseRouter<UserListActivity> {
                     @Override
                     public void onComplete() {
 
+                    }
+                });
+        fragment.observeCancelClick()
+                .subscribe(new Consumer<Boolean>() {
+                    @Override
+                    public void accept(Boolean value) throws Exception {
+                        if(value)
+                            activity.onBackPressed();
                     }
                 });
     }

@@ -1,4 +1,4 @@
-package android.smartdeveloper.ru.testrxmvvmapplication.presentation.base.recycler.events;
+package android.smartdeveloper.ru.testrxmvvmapplication.presentation.base.recycler;
 
 import android.smartdeveloper.ru.domain.entity.DomainModel;
 
