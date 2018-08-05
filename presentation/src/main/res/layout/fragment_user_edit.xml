@@ -65,7 +65,8 @@
                     android:layout_height="64dp"
                     android:gravity="center"
                     android:hint="Имя"
-                    android:text="@={viewModel.name}" />
+                    android:text="@={viewModel.name}"
+                    android:imeOptions="flagNoExtractUi"/>
 
                 <EditText
                     android:id="@+id/fr_user_surname"
@@ -73,7 +74,8 @@
                     android:layout_height="64dp"
                     android:gravity="center"
                     android:hint="Фамилия"
-                    android:text="@={viewModel.surname}" />
+                    android:text="@={viewModel.surname}"
+                    android:imeOptions="flagNoExtractUi"/>
 
                 <EditText
                     android:id="@+id/fr_user_age"
@@ -82,7 +84,8 @@
                     android:gravity="center"
                     android:hint="Возраст"
                     android:inputType="number"
-                    android:text="@={viewModel.age}" />
+                    android:text="@={viewModel.age}"
+                    android:imeOptions="flagNoExtractUi"/>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"

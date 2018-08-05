@@ -8,11 +8,13 @@ import android.smartdeveloper.ru.testrxmvvmapplication.R;
 import android.smartdeveloper.ru.testrxmvvmapplication.databinding.ActivityUserListBinding;
 import android.smartdeveloper.ru.testrxmvvmapplication.presentation.base.BaseMVVMActivity;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
+import android.view.View;
 
 import io.reactivex.subjects.PublishSubject;
 
@@ -20,6 +22,7 @@ public class UserListActivity extends BaseMVVMActivity<UserListViewModel,Activit
     private static final String TAG = "UserListActivity";
     private SearchView searchView;
     private PublishSubject<String> searchSubject = PublishSubject.create();
+    private FloatingActionButton addUser;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -35,6 +38,15 @@ public class UserListActivity extends BaseMVVMActivity<UserListViewModel,Activit
         // toolbar fancy stuff
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(R.string.toolbar_title);
+
+        addUser = (FloatingActionButton) findViewById(R.id.manage_button);
+
+        addUser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                router.showAddUser();
+            }
+        });
 
         if(savedInstanceState == null){
             viewModel.load();

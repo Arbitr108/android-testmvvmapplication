@@ -33,6 +33,7 @@ ext{
     picasso_version = "2.71828"
     circle_image_version = "2.2.0"
     cardview_version = "27.1.1"
+    constrain_version = "1.1.2"
 
     //Rx
     rxJavaVersion = '2.1.16'

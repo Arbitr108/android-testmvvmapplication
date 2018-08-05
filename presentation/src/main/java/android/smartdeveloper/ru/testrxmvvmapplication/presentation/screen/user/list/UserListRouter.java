@@ -3,6 +3,7 @@ package android.smartdeveloper.ru.testrxmvvmapplication.presentation.screen.user
 import android.smartdeveloper.ru.domain.entity.User;
 import android.smartdeveloper.ru.testrxmvvmapplication.R;
 import android.smartdeveloper.ru.testrxmvvmapplication.presentation.base.BaseRouter;
+import android.smartdeveloper.ru.testrxmvvmapplication.presentation.screen.user.add.UserAddActivity;
 import android.smartdeveloper.ru.testrxmvvmapplication.presentation.screen.user.edit.OnClickItemModel;
 import android.smartdeveloper.ru.testrxmvvmapplication.presentation.screen.user.edit.UserEditFragment;
 import android.support.v4.app.FragmentManager;
@@ -15,6 +16,7 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 
 public class UserListRouter extends BaseRouter<UserListActivity> implements UserEditFragment.UserEditRouting {
+
     private static final String TAG = "UserListRouter";
 
     public UserListRouter(UserListActivity activity) {
@@ -107,5 +109,9 @@ public class UserListRouter extends BaseRouter<UserListActivity> implements User
     @Override
     public void doSomeRoutingWithUserEditing() {
         Log.d(TAG, "doSomeRoutingWithUserEditing: here we may route to logic which fragment needs");
+    }
+
+    public void showAddUser() {
+        activity.startActivity(UserAddActivity.getIntent(activity));
     }
 }

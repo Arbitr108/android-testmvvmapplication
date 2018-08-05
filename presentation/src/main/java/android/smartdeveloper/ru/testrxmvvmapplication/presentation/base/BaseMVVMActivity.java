@@ -32,7 +32,7 @@ public abstract class BaseMVVMActivity
         super.onStart();
         viewModel.addRouter(router);
     }
-//
+
     @Override
     protected void onStop() {
         super.onStop();

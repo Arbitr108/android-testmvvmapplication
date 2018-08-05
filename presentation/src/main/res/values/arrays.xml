@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="genderKey">
+        <item>M</item>
+        <item>F</item>
+    </string-array>
+    <string-array name="genderValue">
+        <item>Муж</item>
+        <item>Жен</item>
+    </string-array>
+</resources>
