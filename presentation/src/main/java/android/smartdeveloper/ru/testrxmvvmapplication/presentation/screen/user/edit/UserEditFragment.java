@@ -1,35 +1,35 @@
 package android.smartdeveloper.ru.testrxmvvmapplication.presentation.screen.user.edit;
 
-import android.databinding.DataBindingUtil;
+import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.smartdeveloper.ru.domain.entity.User;
 import android.smartdeveloper.ru.testrxmvvmapplication.R;
 import android.smartdeveloper.ru.testrxmvvmapplication.databinding.FragmentUserEditBinding;
+import android.smartdeveloper.ru.testrxmvvmapplication.presentation.base.BaseMVVMFragment;
 import android.smartdeveloper.ru.testrxmvvmapplication.presentation.screen.user.list.UserListActivity;
-import android.smartdeveloper.ru.testrxmvvmapplication.presentation.screen.user.list.UserListRouter;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 
 import io.reactivex.Observable;
-import io.reactivex.Observer;
+import io.reactivex.SingleObserver;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.subjects.PublishSubject;
 
 
-public class UserEditFragment extends Fragment {
+public class UserEditFragment extends BaseMVVMFragment
+        <UserEditViewModel, FragmentUserEditBinding, UserEditFragment.UserEditRouting> {
     private static final String TAG = "UserEditFragment";
     private static final String USER = "USER";
+    public static final String EDIT_USER = "EDIT_USER";
 
     private PublishSubject<OnClickItemModel<User>> submitClickSubject = PublishSubject.create();
     private PublishSubject<Boolean> cancelClickSubject = PublishSubject.create();
 
-    private UserListRouter router;
-    private UserEditViewModel viewModel;
     private ImageButton submitButton;
     private ImageButton cancelButton;
 
@@ -38,6 +38,7 @@ public class UserEditFragment extends Fragment {
     }
 
     public static UserEditFragment newInstance(User user) {
+        Log.d(TAG, "newInstance: ");
         UserEditFragment fragment = new UserEditFragment();
         Bundle args = new Bundle();
         args.putSerializable(USER,user);
@@ -45,29 +46,13 @@ public class UserEditFragment extends Fragment {
         return fragment;
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        UserListActivity activity = (UserListActivity)getActivity();
-        if(activity != null){
-            router = ((UserListActivity)getActivity()).getRouter();
-        }
-        viewModel = new UserEditViewModel();
-    }
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         if(getArguments() != null){
-            viewModel.setItem((User)getArguments().getSerializable(USER));
+            this.viewModel.setItem((User)getArguments().getSerializable(USER));
         }
-
-        FragmentUserEditBinding binding = DataBindingUtil.inflate(
-                inflater, provideLayoutId(), container, false);
-        View view = binding.getRoot();
-
-        binding.setViewModel(viewModel);
-        return view;
+        return super.onCreateView(inflater, container, savedInstanceState);
     }
 
     @Override
@@ -78,16 +63,18 @@ public class UserEditFragment extends Fragment {
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                    viewModel.update()
-                            .subscribe(new Observer<User>() {
+                    viewModel
+                            .update()
+                            .subscribe(new SingleObserver<User>(){
                                 @Override
                                 public void onSubscribe(Disposable d) {
                                     viewModel.getDisposables().add(d);
                                 }
 
                                 @Override
-                                public void onNext(User user) {
-                                    submitClickSubject.onNext(
+                                public void onSuccess(User user) {
+                                    submitClickSubject
+                                            .onNext(
                                             new OnClickItemModel<User>(user)
                                     );
                                 }
@@ -95,11 +82,6 @@ public class UserEditFragment extends Fragment {
                                 @Override
                                 public void onError(Throwable e) {
                                     router.showError(e);
-                                }
-
-                                @Override
-                                public void onComplete() {
-
                                 }
                             });
             }
@@ -112,14 +94,28 @@ public class UserEditFragment extends Fragment {
         });
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        submitButton.setOnClickListener(null);
+        cancelButton.setOnClickListener(null);
+        submitButton = null;
+        cancelButton = null;
+    }
+
     protected int provideLayoutId() {
         return R.layout.fragment_user_edit;
     }
 
     @Override
-    public void onDetach() {
-        super.onDetach();
-        viewModel.clear();
+    protected UserEditRouting provideRouter() {
+        return (UserEditRouting) ((UserListActivity)getActivity()).getRouter();
+    }
+
+    @Override
+    protected UserEditViewModel provideViewModel() {
+        UserEditViewModel viewModel = ViewModelProviders.of(this).get(UserEditViewModel.class);
+        return  ViewModelProviders.of(this).get(UserEditViewModel.class);
     }
 
     public Observable<OnClickItemModel<User>> observeSubmitClick(){
@@ -128,5 +124,10 @@ public class UserEditFragment extends Fragment {
 
     public Observable<Boolean> observeCancelClick(){
         return cancelClickSubject;
+    }
+
+    public interface UserEditRouting{
+        public void doSomeRoutingWithUserEditing();
+        public void showError(Throwable e);
     }
 }

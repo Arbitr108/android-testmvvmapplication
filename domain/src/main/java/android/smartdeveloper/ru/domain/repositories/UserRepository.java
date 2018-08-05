@@ -7,18 +7,19 @@ import java.util.Map;
 
 import io.reactivex.Completable;
 import io.reactivex.Observable;
+import io.reactivex.Single;
 
 public interface UserRepository {
 
-    Observable<List<User>> all();
+    Single<List<User>> all();
 
     Observable<List<User>> all(Map<String, String> options);
 
-    Observable<User> fetch(String userId);
+    Single<User> fetch(String userId);
 
-    Observable<List<User>> search(String search);
+    Single<List<User>> search(String search);
 
-    Observable<User> update(User user);
+    Single<User> update(User user);
 
     Completable delete(String id);
 

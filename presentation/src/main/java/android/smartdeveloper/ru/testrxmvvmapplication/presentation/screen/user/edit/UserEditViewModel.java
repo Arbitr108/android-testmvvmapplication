@@ -1,19 +1,21 @@
 package android.smartdeveloper.ru.testrxmvvmapplication.presentation.screen.user.edit;
 
 import android.databinding.ObservableField;
+import android.smartdeveloper.ru.data.database.Db;
 import android.smartdeveloper.ru.data.network.RestService;
 import android.smartdeveloper.ru.data.repositories.UserRepositoryImpl;
 import android.smartdeveloper.ru.domain.entity.Gender;
 import android.smartdeveloper.ru.domain.entity.User;
 import android.smartdeveloper.ru.domain.usecase.FetchUserUseCase;
 import android.smartdeveloper.ru.domain.usecase.UpdateUserUseCase;
-import android.smartdeveloper.ru.testrxmvvmapplication.presentation.base.BaseEditViewModel;
+import android.smartdeveloper.ru.testrxmvvmapplication.App;
+import android.smartdeveloper.ru.testrxmvvmapplication.presentation.base.BaseFragmentViewModel;
 import android.smartdeveloper.ru.testrxmvvmapplication.presentation.executor.UIThread;
 
-import io.reactivex.Observable;
+import io.reactivex.Single;
 
 
-public class UserEditViewModel extends BaseEditViewModel<User> {
+public class UserEditViewModel extends BaseFragmentViewModel<UserEditFragment.UserEditRouting> {
 
     public static final String MUSC = "М";
     public static final String FEM = "Ж";
@@ -33,13 +35,15 @@ public class UserEditViewModel extends BaseEditViewModel<User> {
         updateUserUseCase =
                 new UpdateUserUseCase(
                         new UserRepositoryImpl(
-                                RestService.getInstance()),
+                                RestService.getInstance(),
+                                Db.getInstance(App.getAppContext())),
                         UIThread.getInstance());
 
         fetchUserUseCase =
                 new FetchUserUseCase(
                         new UserRepositoryImpl(
-                                RestService.getInstance()),
+                                RestService.getInstance(),
+                                Db.getInstance(App.getAppContext())),
                         UIThread.getInstance());
 
     }
@@ -54,7 +58,7 @@ public class UserEditViewModel extends BaseEditViewModel<User> {
         userId = user.getId();
     }
 
-    public Observable<User> update() {
+    public Single<User> update() {
         return updateUserUseCase
                 .updateUser(
                         new User(

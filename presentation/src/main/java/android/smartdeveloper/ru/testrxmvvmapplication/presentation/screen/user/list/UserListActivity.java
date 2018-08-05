@@ -11,18 +11,20 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 
 import io.reactivex.subjects.PublishSubject;
 
 public class UserListActivity extends BaseMVVMActivity<UserListViewModel,ActivityUserListBinding,UserListRouter> {
-
+    private static final String TAG = "UserListActivity";
     private SearchView searchView;
     private PublishSubject<String> searchSubject = PublishSubject.create();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d(TAG, "------------------onCreate:------------------- ");
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
         binding.recyclerView.setAdapter(viewModel.adapter);
         binding.recyclerView.setHasFixedSize(false);
@@ -33,19 +35,17 @@ public class UserListActivity extends BaseMVVMActivity<UserListViewModel,Activit
         // toolbar fancy stuff
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(R.string.toolbar_title);
+
+        if(savedInstanceState == null){
+            viewModel.load();
+            viewModel.initObservers();
+            viewModel.observeSearch(searchSubject);
+        }
     }
 
     @Override
     protected int provideLayoutId() {
         return R.layout.activity_user_list;
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        viewModel.load();
-        viewModel.initObservers();
-        viewModel.observeSearch(searchSubject);
     }
 
     @Override

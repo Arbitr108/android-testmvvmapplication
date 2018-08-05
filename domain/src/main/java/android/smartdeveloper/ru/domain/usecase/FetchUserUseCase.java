@@ -4,7 +4,7 @@ import android.smartdeveloper.ru.domain.entity.User;
 import android.smartdeveloper.ru.domain.executors.PostExecutionThread;
 import android.smartdeveloper.ru.domain.repositories.UserRepository;
 
-import io.reactivex.Observable;
+import io.reactivex.Single;
 
 public class FetchUserUseCase extends BaseUseCase {
 
@@ -15,7 +15,7 @@ public class FetchUserUseCase extends BaseUseCase {
         this.userRepository = repository;
     }
 
-    public Observable<User> getUser(String userId){
+    public Single<User> getUser(String userId){
         return userRepository
                 .fetch(userId)
                 .subscribeOn(executionThread)

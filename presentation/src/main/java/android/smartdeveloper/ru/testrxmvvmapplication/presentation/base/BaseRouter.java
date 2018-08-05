@@ -1,6 +1,9 @@
 package android.smartdeveloper.ru.testrxmvvmapplication.presentation.base;
 
 import android.content.DialogInterface;
+import android.smartdeveloper.ru.testrxmvvmapplication.R;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.widget.Toast;
@@ -38,6 +41,7 @@ public class BaseRouter <A extends BaseActivity> {
 
     public void showError(Throwable e){
         showToastError(e.getMessage());
+        Log.e(TAG, "Router :" + e.getMessage() );
     }
 
     private void showToastError(int errorId) {
@@ -60,5 +64,17 @@ public class BaseRouter <A extends BaseActivity> {
 
     public void goBack(){
         activity.onBackPressed();
+    }
+
+    public void replaceFragment(BaseFragment fragment, int containerResId, boolean addToBackStack, String tag){
+        FragmentManager fragmentManager = activity.getSupportFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.setCustomAnimations(
+                R.anim.slide_in_right, R.anim.slide_out_right, R.anim.slide_in_right, R.anim.slide_out_right);
+        transaction.replace(containerResId, fragment, tag);
+        if(addToBackStack){
+            transaction.addToBackStack(null);
+        }
+        transaction.commit();
     }
 }

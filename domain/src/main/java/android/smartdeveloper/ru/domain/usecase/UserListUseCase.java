@@ -6,7 +6,7 @@ import android.smartdeveloper.ru.domain.repositories.UserRepository;
 
 import java.util.List;
 
-import io.reactivex.Observable;
+import io.reactivex.Single;
 
 public class UserListUseCase extends BaseUseCase{
     private UserRepository userRepository;
@@ -16,7 +16,7 @@ public class UserListUseCase extends BaseUseCase{
         this.userRepository = repository;
     }
 
-    public Observable<List<User>> getUsers(){
+    public Single<List<User>> getUsers(){
 
         return userRepository
                 .all()

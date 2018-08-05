@@ -6,7 +6,7 @@ import android.smartdeveloper.ru.domain.repositories.UserRepository;
 
 import java.util.List;
 
-import io.reactivex.Observable;
+import io.reactivex.Single;
 
 public class SearchUseCase extends BaseUseCase {
     private UserRepository userRepository;
@@ -16,7 +16,7 @@ public class SearchUseCase extends BaseUseCase {
         this.userRepository = userRepository;
     }
 
-    public Observable<List<User>> search(String search){
+    public Single<List<User>> search(String search){
         return userRepository
                 .search(search)
                 .subscribeOn(executionThread)

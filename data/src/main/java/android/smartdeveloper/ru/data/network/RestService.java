@@ -6,13 +6,15 @@ import android.smartdeveloper.ru.data.entity.UserRequest;
 import android.smartdeveloper.ru.data.entity.UserResponse;
 import android.util.Log;
 
+import com.facebook.stetho.okhttp3.StethoInterceptor;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import io.reactivex.Observable;
+import io.reactivex.Single;
+import io.reactivex.SingleTransformer;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -42,6 +44,8 @@ public class RestService {
                                     }
                                 })
                                 .setLevel(HttpLoggingInterceptor.Level.BODY))
+                        //debugging
+                        .addNetworkInterceptor(new StethoInterceptor())
                         .build();
 
         Gson gson = new GsonBuilder().create();
@@ -57,29 +61,30 @@ public class RestService {
     }
 
 
-    public Observable<List<UserResponse>> all() {
+    public Single<List<UserResponse>> all() {
 
         return restApi
                 .all()
-                .compose(transformers.<List<UserResponse>, ErrorResponse>handleErrorResponse());
+                .compose((SingleTransformer<? super List<UserResponse>, ? extends List<UserResponse>>)
+                        transformers.<List<UserResponse>, ErrorResponse>handleErrorResponse());
     }
 
-    public Observable<UserResponse> fetch(String id) {
+    public Single<UserResponse> fetch(String id) {
         return restApi
                 .fetch(id)
-                .compose(transformers.<UserResponse, ErrorResponse>handleErrorResponse());
+                .compose((SingleTransformer<? super UserResponse, ? extends UserResponse>) transformers.<UserResponse, ErrorResponse>handleErrorResponse());
     }
 
-    public Observable<UserResponse> update(UserRequest userRequest) {
+    public Single<UserResponse> update(UserRequest userRequest) {
         return restApi
                 .update(userRequest);
      }
 
-    public Observable<DeleteResponse> remove(String id) {
+    public Single<DeleteResponse> remove(String id) {
 
         return restApi
                 .remove(id)
-                .compose(transformers.<DeleteResponse, ErrorResponse>handleErrorResponse());
+                .compose((SingleTransformer<? super DeleteResponse, ? extends DeleteResponse>) transformers.<DeleteResponse, ErrorResponse>handleErrorResponse());
 
     }
 
@@ -90,10 +95,10 @@ public class RestService {
         return instance;
     }
 
-    public Observable<List<UserResponse>> search(String search) {
+    public Single<List<UserResponse>> search(String search) {
         String searchFormatted = search +"%";
         return restApi
                 .search(String.format("name LIKE '%s' OR surname LIKE '%s'", searchFormatted, searchFormatted))
-                .compose(transformers.<List<UserResponse>, ErrorResponse>handleErrorResponse());
+                .compose((SingleTransformer<? super List<UserResponse>, ? extends List<UserResponse>>) transformers.<List<UserResponse>, ErrorResponse>handleErrorResponse());
     }
 }

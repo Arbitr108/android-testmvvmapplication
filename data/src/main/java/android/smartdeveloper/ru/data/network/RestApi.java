@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import io.reactivex.Observable;
+import io.reactivex.Single;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
@@ -24,18 +25,18 @@ public interface RestApi {
             @QueryMap Map<String, String> options);
 
     @GET("data/user?sortBy=objectId%20desc")
-    Observable<List<UserResponse>> all();
+    Single<List<UserResponse>> all();
 
     @GET("data/user/{id}")
-    Observable<UserResponse> fetch(@Path("id") String id);
+    Single<UserResponse> fetch(@Path("id") String id);
 
     @Headers("CustomHeader: some custom header data")
     @PUT("data/user")
-    Observable<UserResponse> update(@Body UserRequest userRequest);
+    Single<UserResponse> update(@Body UserRequest userRequest);
 
     @DELETE("data/user/{id}")
-    Observable<DeleteResponse> remove(@Path("id") String id);
+    Single<DeleteResponse> remove(@Path("id") String id);
 
     @GET("data/user")
-    Observable<List<UserResponse>> search(@Query("where") String search);
+    Single<List<UserResponse>> search(@Query("where") String search);
 }

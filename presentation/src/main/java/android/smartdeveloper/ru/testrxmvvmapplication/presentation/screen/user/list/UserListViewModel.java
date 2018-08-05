@@ -2,6 +2,7 @@ package android.smartdeveloper.ru.testrxmvvmapplication.presentation.screen.user
 
 import android.databinding.BindingAdapter;
 import android.databinding.ObservableField;
+import android.smartdeveloper.ru.data.database.Db;
 import android.smartdeveloper.ru.data.network.RestService;
 import android.smartdeveloper.ru.data.repositories.UserRepositoryImpl;
 import android.smartdeveloper.ru.domain.entity.User;
@@ -9,6 +10,7 @@ import android.smartdeveloper.ru.domain.repositories.UserRepository;
 import android.smartdeveloper.ru.domain.usecase.SearchUseCase;
 import android.smartdeveloper.ru.domain.usecase.UserListUseCase;
 import android.smartdeveloper.ru.domain.usecase.UserRemoveUseCase;
+import android.smartdeveloper.ru.testrxmvvmapplication.App;
 import android.smartdeveloper.ru.testrxmvvmapplication.presentation.base.BaseViewModel;
 import android.smartdeveloper.ru.testrxmvvmapplication.presentation.base.recycler.OnItemClickEventModel;
 import android.smartdeveloper.ru.testrxmvvmapplication.presentation.executor.UIThread;
@@ -21,6 +23,7 @@ import java.util.List;
 
 import io.reactivex.CompletableObserver;
 import io.reactivex.Observer;
+import io.reactivex.SingleObserver;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.subjects.PublishSubject;
 
@@ -39,7 +42,8 @@ public class UserListViewModel extends BaseViewModel<UserListRouter> {
     public ObservableField<User> user = new ObservableField<>();
 
     public UserListViewModel() {
-        UserRepository repository = new UserRepositoryImpl(RestService.getInstance());
+        UserRepository repository =
+                new UserRepositoryImpl(RestService.getInstance(), Db.getInstance(App.getAppContext()));
 
         userListUseCase = new UserListUseCase(repository, UIThread.getInstance());
 
@@ -49,26 +53,22 @@ public class UserListViewModel extends BaseViewModel<UserListRouter> {
     }
 
     public void load() {
-        userListUseCase.getUsers()
-                .subscribe(new Observer<List<User>>() {
+        userListUseCase
+                .getUsers()
+                .subscribe(new SingleObserver<List<User>>() {
                     @Override
                     public void onSubscribe(Disposable d) {
                         getDisposables().add(d);
                     }
 
                     @Override
-                    public void onNext(List<User> users) {
+                    public void onSuccess(List<User> users) {
                         adapter.setItems(users);
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         router.showError(e);
-                    }
-
-                    @Override
-                    public void onComplete() {
-
                     }
                 });
 
@@ -98,24 +98,25 @@ public class UserListViewModel extends BaseViewModel<UserListRouter> {
                     }
                 });
 
-        adapter.observeEditButtonClick().subscribe(new Observer<OnItemClickEventModel<User>>() {
-            @Override
-            public void onSubscribe(Disposable d) {
-                getDisposables().add(d);
-            }
+        adapter.observeEditButtonClick()
+                .subscribe(new Observer<OnItemClickEventModel<User>>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        getDisposables().add(d);
+                    }
 
-            @Override
-            public void onNext(OnItemClickEventModel<User> userOnItemClickEventModel) {
-                router.showUserEdit(userOnItemClickEventModel.getEntity());
-            }
+                    @Override
+                    public void onNext(OnItemClickEventModel<User> userOnItemClickEventModel) {
+                        router.showUserEdit(userOnItemClickEventModel.getEntity());
+                    }
 
-            @Override
-            public void onError(Throwable e) {
-                router.showError(e);
-            }
+                    @Override
+                    public void onError(Throwable e) {
+                        router.showError(e);
+                    }
 
-            @Override
-            public void onComplete() {
+                    @Override
+                    public void onComplete() {
 
             }
         });
@@ -196,45 +197,41 @@ public class UserListViewModel extends BaseViewModel<UserListRouter> {
     }
 
     public void observeSearch(PublishSubject<String> searchSubject) {
-        searchSubject.subscribe(new Observer<String>() {
-            @Override
-            public void onSubscribe(Disposable d) {
-                getDisposables().add(d);
-            }
+        searchSubject
+                .subscribe(new Observer<String>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        getDisposables().add(d);
+                    }
 
-            @Override
-            public void onNext(String search) {
-                userSearchUseCase.search(search)
-                        .subscribe(new Observer<List<User>>() {
-                            @Override
-                            public void onSubscribe(Disposable d) {
-                                getDisposables().add(d);
-                            }
+                    @Override
+                    public void onNext(String search) {
+                        userSearchUseCase.search(search)
+                                .subscribe(new SingleObserver<List<User>>() {
+                                    @Override
+                                    public void onSubscribe(Disposable d) {
+                                        getDisposables().add(d);
+                                    }
 
-                            @Override
-                            public void onNext(List<User> users) {
-                                adapter.setItems(users);
-                            }
+                                    @Override
+                                    public void onSuccess(List<User> users) {
+                                        adapter.setItems(users);
+                                    }
 
-                            @Override
-                            public void onError(Throwable e) {
-                                router.showError(e);
-                            }
+                                    @Override
+                                    public void onError(Throwable e) {
+                                        router.showError(e);
+                                    }
+                                });
+                    }
 
-                            @Override
-                            public void onComplete() {
+                    @Override
+                    public void onError(Throwable e) {
+                        router.showError(e);
+                    }
 
-                            }
-                        });
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                router.showError(e);
-            }
-
-            @Override
-            public void onComplete() {
+                    @Override
+                    public void onComplete() {
 
             }
         });

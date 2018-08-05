@@ -4,7 +4,7 @@ import android.smartdeveloper.ru.domain.entity.User;
 import android.smartdeveloper.ru.domain.executors.PostExecutionThread;
 import android.smartdeveloper.ru.domain.repositories.UserRepository;
 
-import io.reactivex.Observable;
+import io.reactivex.Single;
 
 public class UpdateUserUseCase extends BaseUseCase {
 
@@ -15,7 +15,7 @@ public class UpdateUserUseCase extends BaseUseCase {
         this.userRepository = userRepository;
     }
 
-    public Observable<User> updateUser(User user){
+    public Single<User> updateUser(User user){
 
         return userRepository
                 .update(user)
