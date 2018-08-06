@@ -47,5 +47,9 @@ ext{
     recycler_view_version = "27.1.1"
 
     //Database
-    room_version = '1.1.1'
+    room_version = "1.1.1"
+
+    //Tests
+    junitVersion = "4.12"
+    mochitoVersion = "1.10.19"
 }

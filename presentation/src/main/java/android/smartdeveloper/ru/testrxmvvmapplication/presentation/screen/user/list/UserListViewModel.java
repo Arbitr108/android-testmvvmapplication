@@ -118,8 +118,8 @@ public class UserListViewModel extends BaseViewModel<UserListRouter> {
                     @Override
                     public void onComplete() {
 
-            }
-        });
+                    }
+                });
 
         adapter.observeDeleteButtonClick().subscribe(new Observer<OnItemClickEventModel<User>>() {
             @Override
@@ -132,7 +132,8 @@ public class UserListViewModel extends BaseViewModel<UserListRouter> {
                 User user = userOnItemClickEventModel.getEntity();
                 if (user != null) {
                     router.confirmAction(
-                            String.format("Удалить пользователя %s %s", user.getName(), user.getSurname()))
+                            String.format("Удалить пользователя %s %s", user.getName(), user.getSurname())
+                    )
                             .subscribe(new Observer<Boolean>() {
                                 @Override
                                 public void onSubscribe(Disposable d) {
@@ -233,7 +234,7 @@ public class UserListViewModel extends BaseViewModel<UserListRouter> {
                     @Override
                     public void onComplete() {
 
-            }
-        });
+                    }
+                });
     }
 }
