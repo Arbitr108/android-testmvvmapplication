@@ -7,8 +7,8 @@ import io.reactivex.Scheduler;
 import io.reactivex.schedulers.Schedulers;
 
 public abstract class BaseUseCase {
-    Scheduler executionThread;
-    Scheduler postExecutionThread;
+    protected Scheduler executionThread;
+    protected Scheduler postExecutionThread;
 
     public BaseUseCase(PostExecutionThread postExecutionThread) {
         executionThread = Schedulers.io();
@@ -25,4 +25,11 @@ public abstract class BaseUseCase {
         this.postExecutionThread = postExecutionThread.getScheduler();
     }
 
+    protected Scheduler getExecutionThread() {
+        return executionThread;
+    }
+
+    protected Scheduler getPostExecutionThread() {
+        return postExecutionThread;
+    }
 }

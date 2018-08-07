@@ -6,6 +6,7 @@ import android.smartdeveloper.ru.domain.repositories.UserRepository;
 
 import java.util.List;
 
+import io.reactivex.Scheduler;
 import io.reactivex.Single;
 
 public class UserListUseCase extends BaseUseCase{
@@ -16,6 +17,13 @@ public class UserListUseCase extends BaseUseCase{
         this.userRepository = repository;
     }
 
+
+    //only for test
+    public UserListUseCase(UserRepository repository, Scheduler executionThread, Scheduler postExecutionThread){
+        super(executionThread, postExecutionThread);
+        this.userRepository = repository;
+    }
+
     public Single<List<User>> getUsers(){
 
         return userRepository
@@ -23,5 +31,7 @@ public class UserListUseCase extends BaseUseCase{
                 .subscribeOn(executionThread)
                 .observeOn(postExecutionThread);
     }
+
+
 
 }

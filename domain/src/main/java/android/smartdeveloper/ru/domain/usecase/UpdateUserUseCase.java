@@ -17,9 +17,13 @@ public class UpdateUserUseCase extends BaseUseCase {
 
     public Single<User> updateUser(User user){
 
-        return userRepository
+        return getUserRepository()
                 .update(user)
-                .subscribeOn(executionThread)
-                .observeOn(postExecutionThread);
+                .subscribeOn(getExecutionThread())
+                .observeOn(getPostExecutionThread());
+    }
+
+    protected UserRepository getUserRepository(){
+        return userRepository;
     }
 }
