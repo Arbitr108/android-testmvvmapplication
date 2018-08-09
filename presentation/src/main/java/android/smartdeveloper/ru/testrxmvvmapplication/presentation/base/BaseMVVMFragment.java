@@ -28,7 +28,7 @@ public abstract class BaseMVVMFragment
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        Log.d(TAG, "onCreate: ");
+        //Log.d(TAG, "onCreate: ");
         super.onCreate(savedInstanceState);
         this.viewModel = provideViewModel();
         this.router = provideRouter();

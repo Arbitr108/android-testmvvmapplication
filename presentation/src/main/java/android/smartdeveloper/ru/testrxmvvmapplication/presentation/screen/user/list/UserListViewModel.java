@@ -16,7 +16,6 @@ import android.smartdeveloper.ru.testrxmvvmapplication.presentation.base.recycle
 import android.smartdeveloper.ru.testrxmvvmapplication.presentation.executor.UIThread;
 import android.smartdeveloper.ru.testrxmvvmapplication.presentation.helpers.GuiHelper;
 import android.smartdeveloper.ru.testrxmvvmapplication.presentation.screen.user.list.recycler.UserListAdapter;
-import android.util.Log;
 import android.widget.ImageView;
 
 import java.util.List;
@@ -153,7 +152,7 @@ public class UserListViewModel extends BaseViewModel<UserListRouter> {
 
                                                     @Override
                                                     public void onComplete() {
-                                                        Log.d(TAG, "onComplete: user removed " + user.getName());
+                                                        //Log.d(TAG, "onComplete: user removed " + user.getName());
                                                         adapter.removeItem(user);
                                                     }
 

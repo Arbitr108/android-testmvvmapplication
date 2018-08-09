@@ -7,7 +7,6 @@ import android.smartdeveloper.ru.testrxmvvmapplication.presentation.screen.user.
 import android.smartdeveloper.ru.testrxmvvmapplication.presentation.screen.user.edit.OnClickItemModel;
 import android.smartdeveloper.ru.testrxmvvmapplication.presentation.screen.user.edit.UserEditFragment;
 import android.support.v4.app.FragmentManager;
-import android.util.Log;
 import android.widget.Toast;
 
 import io.reactivex.Notification;
@@ -36,7 +35,7 @@ public class UserListRouter extends BaseRouter<UserListActivity> implements User
                 .doOnEach(new Consumer<Notification<OnClickItemModel<User>>>() {
                     @Override
                     public void accept(Notification<OnClickItemModel<User>> onClickItemModelNotification) throws Exception {
-                        Log.d(TAG, "accept: submit clicked");
+                        //Log.d(TAG, "accept: submit clicked");
                     }
                 })
                 .subscribe(new Observer<OnClickItemModel<User>>() {
@@ -108,7 +107,7 @@ public class UserListRouter extends BaseRouter<UserListActivity> implements User
 
     @Override
     public void doSomeRoutingWithUserEditing() {
-        Log.d(TAG, "doSomeRoutingWithUserEditing: here we may route to logic which fragment needs");
+        //Log.d(TAG, "doSomeRoutingWithUserEditing: here we may route to logic which fragment needs");
     }
 
     public void showAddUser() {

@@ -4,7 +4,6 @@ import android.smartdeveloper.ru.data.entity.DeleteResponse;
 import android.smartdeveloper.ru.data.entity.ErrorResponse;
 import android.smartdeveloper.ru.data.entity.UserRequest;
 import android.smartdeveloper.ru.data.entity.UserResponse;
-import android.util.Log;
 
 import com.facebook.stetho.okhttp3.StethoInterceptor;
 import com.google.gson.Gson;
@@ -25,6 +24,7 @@ public class RestService {
     private static final String TAG = "RestService";
     public static final String BASE_URL =
             "https://api.backendless.com/5D84CB49-4F56-4AD0-FF44-D3FC94518C00/BFBC3E8C-03A1-BECE-FF6F-C81110FB3400/";
+    private static String baseUrl;
     private RestApi restApi;
     private static RestService instance;
     private ResponseTransformers transformers;
@@ -40,7 +40,7 @@ public class RestService {
                                 new HttpLoggingInterceptor.Logger() {
                                     @Override
                                     public void log(String message) {
-                                        Log.d(TAG, "HTTP-interceptor: " + message);
+                                        //Log.d(TAG, "HTTP-interceptor: " + message);
                                     }
                                 })
                                 .setLevel(HttpLoggingInterceptor.Level.BODY))
@@ -53,8 +53,8 @@ public class RestService {
                 .Builder()
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create(gson))
-                .baseUrl(BASE_URL)
                 .client(okHttpClient)
+                .baseUrl(getBaseUrl())
                 .build()
                 .create(RestApi.class);
         transformers = new ResponseTransformers(gson);
@@ -65,8 +65,7 @@ public class RestService {
 
         return restApi
                 .all()
-                .compose((SingleTransformer<? super List<UserResponse>, ? extends List<UserResponse>>)
-                        transformers.<List<UserResponse>, ErrorResponse>handleErrorResponse());
+                .compose(transformers.<List<UserResponse>, ErrorResponse>handleErrorResponseSingle());
     }
 
     public Single<UserResponse> fetch(String id) {
@@ -94,6 +93,19 @@ public class RestService {
         }
         return instance;
     }
+
+    public static RestService getInstance(String url) {
+        if (instance == null) {
+            baseUrl = url;
+            instance = new RestService();
+        }
+        return instance;
+    }
+
+    private String getBaseUrl(){
+        return baseUrl.isEmpty() ? BASE_URL : baseUrl ;
+    }
+
 
     public Single<List<UserResponse>> search(String search) {
         String searchFormatted = search +"%";

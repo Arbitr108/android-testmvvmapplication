@@ -52,4 +52,14 @@ ext{
     //Tests
     junitVersion = "4.12"
     mochitoVersion = "1.10.19"
+    testRunnerVersion = "1.0.2"
+    espressoVersion = "3.0.2"
+    androidMockito = ""
+    mockWebServerVersion = "3.11.0"
+
+
+    //debug
+    stethoVersion = "1.5.0"
+
+
 }

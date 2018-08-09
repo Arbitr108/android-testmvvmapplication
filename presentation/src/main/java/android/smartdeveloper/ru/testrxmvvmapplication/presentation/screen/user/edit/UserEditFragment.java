@@ -38,7 +38,7 @@ public class UserEditFragment extends BaseMVVMFragment
     }
 
     public static UserEditFragment newInstance(User user) {
-        Log.d(TAG, "newInstance: ");
+        //Log.d(TAG, "newInstance: ");
         UserEditFragment fragment = new UserEditFragment();
         Bundle args = new Bundle();
         args.putSerializable(USER,user);

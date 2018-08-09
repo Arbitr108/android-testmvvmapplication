@@ -28,6 +28,6 @@ public class LayoutWatcher implements View.OnLayoutChangeListener {
             scaleDown.start();
         }
 
-        Log.d(TAG, String.format("onLayoutChange: %d,  %d,  %d,  %d,", left, top, right, bottom));
+        //Log.d(TAG, String.format("onLayoutChange: %d,  %d,  %d,  %d,", left, top, right, bottom));
     }
 }

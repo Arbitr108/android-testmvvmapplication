@@ -26,7 +26,7 @@ public class BaseRouter <A extends BaseActivity> {
                 switch (which){
                     case DialogInterface.BUTTON_POSITIVE:
                         confirmSubject.onNext(true);
-                        Log.d(TAG, "onClick: Positive choice");
+                        //Log.d(TAG, "onClick: Positive choice");
                         dialog.dismiss();
                         break;
 

@@ -12,7 +12,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 
@@ -27,7 +26,7 @@ public class UserListActivity extends BaseMVVMActivity<UserListViewModel,Activit
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d(TAG, "------------------onCreate:------------------- ");
+        //Log.d(TAG, "------------------onCreate:------------------- ");
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
         binding.recyclerView.setAdapter(viewModel.adapter);
         binding.recyclerView.setHasFixedSize(false);

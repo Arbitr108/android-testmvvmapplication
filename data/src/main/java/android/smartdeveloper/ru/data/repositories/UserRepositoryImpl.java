@@ -6,7 +6,6 @@ import android.smartdeveloper.ru.data.entity.UserResponse;
 import android.smartdeveloper.ru.data.network.RestService;
 import android.smartdeveloper.ru.domain.entity.User;
 import android.smartdeveloper.ru.domain.repositories.UserRepository;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,7 +49,7 @@ public class UserRepositoryImpl implements UserRepository {
                 .doOnSuccess(new Consumer<List<UserResponse>>() {
                     @Override
                     public void accept(List<UserResponse> userResponses) throws Exception {
-                        Log.d(TAG, "acceptObservable: " + userResponses.isEmpty());
+                        //Log.d(TAG, "acceptObservable: " + userResponses.isEmpty());
                     }
                 })
                 .map(new Function<List<UserResponse>, List<User>>() {
@@ -67,7 +66,7 @@ public class UserRepositoryImpl implements UserRepository {
                                     response.getAge(),
                                     response.getObjectId()
                             ));
-                            Log.d(TAG, "apply: " + users.size());
+                            //Log.d(TAG, "apply: " + users.size());
                         }
                         return users;
                     }

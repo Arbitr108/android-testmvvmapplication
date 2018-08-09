@@ -14,7 +14,7 @@ public abstract class Db extends RoomDatabase {
 
     public static final String DATABASE_NAME = "test.db";
     private static Db instance;
-
+    private static Db instanceInMemory;
 
     public abstract UserDAO getUserDao();
 
@@ -26,6 +26,15 @@ public abstract class Db extends RoomDatabase {
                     .build();
         }
         return instance;
+    }
+
+    public static Db getInstanceInMemory(Context context){
+        if(instanceInMemory == null){
+            instanceInMemory = Room.inMemoryDatabaseBuilder(context, Db.class)
+                    .fallbackToDestructiveMigration()
+                    .build();
+        }
+        return instanceInMemory;
     }
 
     public static void destroyInstance(){ }
